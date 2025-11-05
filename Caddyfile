@@ -1,0 +1,10 @@
+api.inspectioncloud.org {
+  reverse_proxy backend:3000
+}
+admin.inspectioncloud.org {
+  reverse_proxy admin:3001
+}
+portal.inspectioncloud.org {
+  root * /var/www/portal
+  file_server
+}

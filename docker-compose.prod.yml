@@ -1,0 +1,75 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: midstream
+      POSTGRES_PASSWORD: midstreampass
+      POSTGRES_DB: midstreamdb
+    volumes: [ "pgdata:/var/lib/postgresql/data" ]
+    networks: [ net ]
+
+  redis:
+    image: redis:7-alpine
+    networks: [ net ]
+
+  minio:
+    image: quay.io/minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    volumes: [ "minio:/data" ]
+    networks: [ net ]
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports: ["8025:8025"]
+    networks: [ net ]
+
+  backend:
+    build:
+      context: ./src
+      dockerfile: Dockerfile.backend
+    env_file: .env.prod
+    depends_on: [ postgres, redis, minio ]
+    networks: [ net ]
+
+  worker:
+    build:
+      context: ./src
+      dockerfile: Dockerfile.worker
+    env_file: .env.prod
+    depends_on: [ backend, redis, minio ]
+    networks: [ net ]
+
+  admin:
+    build:
+      context: ./src
+      dockerfile: Dockerfile.admin
+      args:
+        NEXT_PUBLIC_API_URL: "https://api.inspectioncloud.org/api"
+    depends_on: [ backend ]
+    networks: [ net ]
+
+  caddy:
+    image: caddy:2
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./portal:/var/www/portal
+      - caddy_data:/data
+      - caddy_config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on: [ backend, admin ]
+    networks: [ net ]
+
+volumes:
+  pgdata: {}
+  minio: {}
+  caddy_data: {}
+  caddy_config: {}
+
+networks:
+  net: {}

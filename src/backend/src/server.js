@@ -1,0 +1,1 @@
+import express from 'express'; const app=express(); app.get('/api/health',(_req,res)=>res.json({ok:true,version:'v6'})); app.listen(3000,()=>console.log('backend up'));

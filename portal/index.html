@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Inspection Cloud Portal</title>
+<style>body{font-family:system-ui,Arial;margin:0;background:#0b1020;color:#e9eef9}header{padding:32px;text-align:center}.wrap{max-width:960px;margin:0 auto;padding:24px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.card{background:#121a33;padding:20px;border-radius:16px;box-shadow:0 6px 16px rgba(0,0,0,.25)}.btn{display:inline-block;margin-top:10px;padding:10px 14px;border-radius:10px;background:#2f6df6;color:#fff;text-decoration:none}small{color:#9fb0d9}</style>
+<body><header><h1>Inspection Cloud</h1><p>Admin dashboard, API, and mobile setup.</p></header>
+<div class="wrap"><div class="cards">
+  <div class="card"><h3>Admin Dashboard</h3><p>Charts, NCR/Daily, Projects, Codes.</p>
+    <a class="btn" id="admin" target="_blank">Open Admin</a><p><small>Use seeded admin to sign in.</small></p></div>
+  <div class="card"><h3>API</h3><p>REST endpoints used by clients.</p>
+    <a class="btn" id="api" target="_blank">API Health</a><p><small>Bearer auth for protected routes.</small></p></div>
+  <div class="card"><h3>Mobile App</h3><p>Point Expo to the API.</p>
+    <a class="btn" href="#" onclick="alert('Set EXPO_PUBLIC_API_URL=https://api.inspectioncloud.org/api and rebuild with EAS.');return false;">Setup Hint</a></div>
+</div></div>
+<script>document.getElementById('admin').href='https://admin.inspectioncloud.org';document.getElementById('api').href='https://api.inspectioncloud.org/api/health';</script>
+</body></html>

@@ -1,0 +1,1 @@
+export default function Home(){return <main style={{padding:24}}><h1>Inspection Cloud Admin</h1></main>}
